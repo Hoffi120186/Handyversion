@@ -67,20 +67,6 @@
       background: rgba(0,123,255,0.7);
       border-color: rgba(255,255,255,0.6);
     }
-
-    #resetTimerButton {
-      position: absolute;
-      top: 15px; right: 15px;
-      background-color: #ff0000; 
-      color: white;
-      font-size: 1.5em;
-      cursor: pointer;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 5px;
-      box-shadow: 2px 2px 8px rgba(0,0,0,0.3);
-    }
-
     .image-container img {
       width: 100%; max-width: 500px;
       border-radius: 10px; display: none;
@@ -168,19 +154,34 @@
     #infoModal .modal-content {
       text-align: left;
     }
+    .top-button-container {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  z-index: 1001;
+}
+
+.top-button-container .btn {
+  position: static;
+  padding: 20px 30px;
+  font-size: 1.3em;
+}
+
   </style>
 </head>
 <body>
-
-  <!-- Instruktor-Button oben links -->
+<div class="top-button-container">
   <a href="#" id="instruktorButton" class="btn">
     <span>Instruktor</span>
   </a>
-
-  <!-- NEU: Startseite-Button oben rechts -->
   <a href="Index.html" class="btn start">
     <span>Startseite</span>
   </a>
+</div>
 
   <main>
     <div class="image-container">
