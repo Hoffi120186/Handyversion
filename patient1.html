@@ -98,13 +98,7 @@
     <div class="camera-container">
         <video id="video" width="640" height="480" autoplay></video>
     </div>
-      <script>
-        fetch("Btninstruktor.html")
-            .then(response => response.text())
-            .then(html => {
-                document.getElementById("button-container").innerHTML = html;
-            });
-    </script>
+
 
 
 <!-- Modal für Bildanzeige -->
@@ -115,7 +109,11 @@
     </div>
 </div>
 
-<button id="einsatzendeButton">Einsatz Ende</button>
+<div id="bottom-buttons">
+  <button id="startseiteButton" onclick="resetAndRedirect()">Startseite</button>
+  <button id="einsatzendeButton" onclick="endMission()">Einsatz Ende</button>
+</div>
+
 
 
 <script src="timer.js"></script>
