@@ -1,0 +1,221 @@
+<!DOCTYPE html> 
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Interaktives Triage-Menü</title>
+   <!-- Hier kommt dein fixer Viewport rein -->
+    <meta name="viewport" content="width=1024, user-scalable=no">
+    <!-- Optional, aber gut für PWA auf Smartphones -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="/manifest.json">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: url('patientenkarte.jpg') no-repeat center center fixed;
+      background-size: cover;
+      font-family: sans-serif;
+    }
+
+    .container {
+      position: relative;
+      width: 520px;
+      max-width: 90vw;
+      margin: 50px auto;
+    }
+
+    .logo {
+      width: 100%;
+      display: block;
+      border-radius: 16px;
+      margin-bottom: 20px;
+    }
+
+    .button {
+      position: absolute;
+      width: 48%;
+      height: 48%;
+      background: rgba(0, 0, 0, 0);
+      border: none;
+      cursor: pointer;
+      color: white;
+      font-weight: bold;
+      text-shadow: 0 0 5px black;
+      font-size: 21px;
+      transition: background 0.2s;
+    }
+
+    .button:active {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .rot    { top: 0;    left: 0; }
+    .gelb   { top: 0;    left: 52%; }
+    .gruen  { top: 52%;  left: 0; }
+    .blau   { top: 52%;  left: 52%; }
+
+    .button span {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      text-align: center;
+    }
+
+    /* NUR für Instruktor-Menü & Kontakt/Hilfe */
+    .button.gelb span,
+    .button.blau span {
+      transform: translate(-30%, -35%);
+    }
+
+    .button:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    @media (min-width: 768px) {
+      .container {
+        width: 700px;
+      }
+
+      .logo {
+        width: 110%;
+      }
+
+      .button {
+        font-size: 26px;
+      }
+    }
+
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: white;
+      color: black;
+      padding: 30px 20px;
+      border-radius: 16px;
+      max-width: 90%;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-content h2 {
+      margin-top: 0;
+      font-size: 24px;
+    }
+
+    .modal-content p {
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    .modal-content input {
+      padding: 10px;
+      font-size: 16px;
+      width: 80%;
+      margin-top: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .modal-content button {
+      margin-top: 20px;
+      padding: 10px 24px;
+      border: none;
+      background: #007BFF;
+      color: white;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .modal-content button:hover {
+      background: #0056b3;
+    }
+
+    .modal-content button.cancel {
+      background: #f40101;
+      color: black;
+      margin-left: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+  <img src="logoneu.png" alt="Triage Logo" class="logo">
+
+  <button class="button rot" onclick="window.location.href='uebung.html'">
+    <span>Anleitung</span>
+  </button>
+  <button class="button gelb" onclick="checkPassword()">
+    <span>Instruktor-<br>Menü</span>
+  </button>
+  <button class="button gruen" onclick="window.location.href='index1.html'">
+    <span>Einsatzbereit</span>
+  </button>
+  <button class="button blau" onclick="window.location.href='kontakt.html'">
+    <span>Kontakt /<br>Hilfe</span>
+  </button>
+</div>
+
+<div class="modal" id="passwordModal" style="display: none;">
+  <div class="modal-content">
+    <h2>Passwort erforderlich</h2>
+    <p>Bitte Passwort eingeben, um zum Instruktor-Menü zu gelangen.</p>
+    <input type="password" id="passwordInput">
+    <br>
+    <button onclick="submitPassword()">Bestätigen</button>
+    <button class="cancel" onclick="closePasswordModal()">Abbrechen</button>
+  </div>
+</div>
+
+<script>
+  function checkPassword() {
+    document.getElementById("passwordModal").style.display = "flex";
+    document.getElementById("passwordInput").value = "";
+    document.getElementById("passwordInput").focus();
+  }
+
+  function closePasswordModal() {
+    document.getElementById("passwordModal").style.display = "none";
+  }
+
+  function submitPassword() {
+    const password = document.getElementById("passwordInput").value;
+    if (password === "112") {
+      window.location.href = "Instruktor.html";
+    } else {
+      alert("Falsches Passwort!");
+    }
+  }
+
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then((registration) => {
+        console.log('Service Worker registriert:', registration);
+      })
+      .catch((error) => {
+        console.error('Service Worker Registrierung fehlgeschlagen:', error);
+      });
+  } else {
+    console.log('Service Worker wird nicht unterstützt.');
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,168 @@
+/* Allgemeine Stile */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url(Patientenkarte.jpg);
+    background-size: 100%; /* Verkleinert das Bild */
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    position: relative;
+    background-repeat: no-repeat;
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color:  rgba(0, 0, 0, 0.8); /* Weißes Overlay mit Transparenz */
+    z-index: -1; /* Setzt das Overlay hinter den Inhalt */
+}
+
+/* Überschriften */
+h1, h2 {
+    color: #ffffff;
+    margin: 18px 0;
+}
+
+/* Tabellen */
+table {
+    width: 90%;
+    max-width: 1000px;
+    margin: 20px auto;
+    border-collapse: collapse;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Tabellenkopf */
+th {
+    background: linear-gradient(180deg, #0077b6, #005a8d);
+    color: white;
+    font-size: 18px;
+    padding: 15px;
+    text-transform: uppercase;
+}
+
+/* Tabellenzellen */
+td {
+    padding: 15px;
+    text-align: center;
+    font-size: 18px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Entfernt den Slash aus den Tabelleninhalten */
+document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll("td").forEach(function(td) {
+        td.textContent = td.textContent.replace("/", " ");
+    });
+});
+
+/* Alternierende Zeilenfarben */
+tbody tr:nth-child(odd) {
+    background-color: #eef6fc;
+}
+
+tbody tr:hover {
+    background-color: #d9eaf7;
+    transition: 0.2s;
+}
+
+/* Sichtungskategorien-Farben */
+td[style*="background-color: red"] { color: white !important; font-weight: bold; }
+td[style*="background-color: yellow"] { color: black !important; font-weight: bold; }
+td[style*="background-color: green"] { color: white !important; font-weight: bold; }
+td[style*="background-color: black"] { color: white !important; font-weight: bold; }
+
+/* Gesamtzeit-Anzeige */
+#gesamtzeit {
+    font-size: 24px;
+    font-weight: bold;
+    padding: 15px;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+    margin: 20px 0;
+}
+
+/* Neuer Einsatz Button */
+#neuerEinsatzButton {
+    display: block;
+    margin: 20px; auto 0;
+    bottom: 30px;
+    left: 5%;
+    padding: 15px 30px;
+    background-color: rgb(250, 4, 4);
+    backdrop-filter: blur(14px);
+    color: rgb(252, 249, 249);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 50px;
+    font-size: 1.5em;
+    cursor: pointer;
+    text-align: center;
+    z-index: 2000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+}
+#neuerEinsatzButton:hover{ 
+    background: rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3),
+    inset 0 4px 6px rgba(255, 255, 255, 0.3);
+}
+#neuerEinsatzButton:active {
+    transform: scale(0.95);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* RESPONSIVE DESIGN */
+@media screen and (max-width: 768px) {
+    table {
+        width: 95%;
+    }
+    
+    th, td {
+        font-size: 16px;
+        padding: 12px;
+    }
+
+    #gesamtzeit {
+        font-size: 22px;
+        padding: 12px;
+    }
+
+    #neuerEinsatzButton {
+        width: 250px;
+        font-size: 16px;
+        padding: 14px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    th, td {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    #gesamtzeit {
+        font-size: 20px;
+        padding: 10px;
+    }
+
+    #neuerEinsatzButton {
+        width: 300px;
+        font-size: 18px;
+        padding: 16px;
+    }
+}

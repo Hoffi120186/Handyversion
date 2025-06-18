@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+     <!-- Hier kommt dein fixer Viewport rein -->
+    <meta name="viewport" content="width=1024, user-scalable=no">
+    <!-- Optional, aber gut für PWA auf Smartphones -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Buttons anzeigen</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+</head>
+<body>
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url(pat9amesser.PNG);
+            background-size: 110%; /* Verkleinert das Bild */
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            position: relative;
+            background-repeat: no-repeat;
+        }
+        
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color:  rgba(0, 0, 0, 0.5); /* Weißes Overlay mit Transparenz */
+            z-index: -1; /* Setzt das Overlay hinter den Inhalt */
+        }</style>
+
+<!-- Buttons -->
+<div class="button-container">
+    <button id="btn1" class="btn">
+        W 18 Jahre alt.<br>Sie wirkt sehr mitgenommen und aufgeregt<br>Sie konnte den Raum noch verlassen als die Täter kamen.
+        <br>Sie sitzt am Boden und hat starke Schmerzen im Fußbereich.<br>momentan ABC-Stabil
+        <span>Weiter durch klicken</span>
+    </button>
+    <button id="btn2" class="btn hidden">
+        Die Pat. fragt die ganze Zeit nach Ihren Freunden!!<br>
+        Der Fuß weist eine sichtbare geschlossene Fehlstellung in Höhe des Sprunggelenkes vor.
+        <span>Weiter durch klicken</span>
+    </button>
+    <button id="btnCountdown1" class="btn hidden">
+        Sofortmaßnahme:<br>Anlage Schienungsmaterial und reponieren<br><span id="countdown1" class="countdown"></span>
+    </button>
+    <button id="btnCountdown2" class="btn hidden">
+        Sofortmaßnahme:<br> Keine Sofortmaßnahme nötig<br><span id="countdown2" class="countdown"></span>
+    </button>
+    <button id="btn3" class="btn hidden">
+        Die Pat. gibt weiter Schmerzen an.<br>Die Pat. ist weiter ABC-Stabil
+        <span>Weiter durch klicken</span>
+    </button>
+    <button id="btnCustom" class="btn hidden">
+        Die Pat. ist weiter ABC-Stabil<br>mit starken Schmerzen<br>
+        <span>Weiter durch klicken</span>
+     </button>
+
+<div id="sk-btns" class="hidden">
+     
+    <button class="sk-btn red" data-sichtung="rot">SK1</button>
+    <button class="sk-btn yellow" data-sichtung="gelb">SK2</button>
+    <button class="sk-btn green" data-sichtung="grün">SK3</button>
+    <button class="sk-btn black" data-sichtung="schwarz">SK</button>
+</div>
+<div id="button-container"></div>
+<button id="btn4" class="btn hidden">
+    Sichtungskategorie wählen<br>Patientenumhängekarte anlegen<br>
+        Nächster QR-Scan
+        <br>
+        <span>Durch klicken</span>
+    </button>
+<div class="camera-container">
+        <video id="video" width="640" height="480" autoplay></video>
+    </div>
+
+<script>
+    fetch("Btninstruktor.html")
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById("button-container").innerHTML = html;
+        });
+</script>
+<!-- Modal für Bildanzeige -->
+<div id="modal">
+    <div id="modalContent">
+        <img src="pat9amesser.PNG" alt="schnitt">
+        <span id="closeModal">Schließen</span>
+    </div>
+</div>
+
+
+<button id="einsatzendeButton">Einsatz Ende</button>
+<script src="timer.js"></script>
+<script src="button1.js"></script>  
+<script src="script.js"></script>   
+<script src="sperrung.js"></script>  
+</body>
+</html>

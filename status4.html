@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+     <!-- Hier kommt dein fixer Viewport rein -->
+    <meta name="viewport" content="width=1024, user-scalable=no">
+    <!-- Optional, aber gut für PWA auf Smartphones -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>QR-Code Scanner</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="LogoApp.jpg" type="image/jpeg">
+</head>
+<body>
+
+   
+
+    <!-- Kamera öffnen Hinweis -->
+    <main>
+        <div class="text-container">
+          <p>
+                <span style="font-size: 36px; display: block; margin-bottom: 25px;">Mehrere Verletzte nach Messerstecherei</span>
+                Bei Eintreffen ist die Polizei bereits vor Ort.<br>
+                Die Polizei gibt an, dass es bei einer Feier zwei Personen mit einem Messer auf mehrere Beteiligte eingestochen haben.<br>
+                Die Täter sind bereits durch die Polizei festgenommen.<br>
+                Die Polizei gibt die Räumlichkeiten frei.<br>
+                Es befinden sich mehrere Verletzte im Gebäude.<br>
+                Teilweise wurde durch Kollegen der Polizei erste Hilfe geleistet.
+            </p>
+        </div>
+        <div class="camera-container">
+            <button id="cameraButton" class="old-style-button">Patienten scannen</button>
+        </div>
+        <video id="video" autoplay playsinline style="display:none;"></video>
+        <canvas id="canvas" style="display:none;"></canvas>
+    </main>
+
+    <button id="einsatzendeButton">Einsatz Ende</button>
+    <script>
+     
+        document.getElementById("einsatzendeButton").addEventListener("click", function () {
+    window.location.href = "/Auswertung.html"; // Weiterleitung zu Auswertung.html
+});
+
+    </script>
+   
+<div id="button-container"></div>
+
+<script>
+    fetch("Btninstruktor.html")
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById("button-container").innerHTML = html;
+        });
+</script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const cameraButton = document.getElementById("cameraButton");
+            const video = document.getElementById("video");
+            const canvas = document.getElementById("canvas");
+            const canvasContext = canvas.getContext('2d');
+            const menuButton = document.getElementById("menuButton");
+            const menuModal = document.getElementById("menuModal");
+            const closeButton = document.querySelector(".close");
+
+            let currentStream = null;
+
+        
+
+            // Kamera starten
+            cameraButton.addEventListener("click", async () => {
+                try {
+                    cameraButton.style.display = "none";
+
+                    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                        alert("Die Kamera-API wird von diesem Gerät nicht unterstützt.");
+                        return;
+                    }
+
+                    const stream = await navigator.mediaDevices.getUserMedia({
+                        video: { facingMode: "environment" } // Rückkamera bevorzugt
+                    });
+
+                    currentStream = stream;
+
+                    video.srcObject = stream;
+                    video.style.display = "block";
+
+                    video.onloadedmetadata = () => {
+                        video.play();
+                        startQRCodeDetection();
+                    };
+                } catch (error) {
+                    console.error("Kamera-Zugriff fehlgeschlagen:", error);
+                    alert("Kamera-Zugriff fehlgeschlagen. Bitte Berechtigungen prüfen.");
+                }
+            });
+
+            // QR-Code-Erkennung
+            function startQRCodeDetection() {
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+
+                const scanQRCode = () => {
+                    canvasContext.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    const imageData = canvasContext.getImageData(0, 0, canvas.width, canvas.height);
+
+                    const code = jsQR(imageData.data, canvas.width, canvas.height, {
+                        inversionAttempts: "dontInvert",
+                    });
+
+                    if (code) {
+                        window.open(code.data, "_self"); // Öffnet die Seite direkt im aktuellen Tab
+                    } else {
+                        requestAnimationFrame(scanQRCode);
+                    }
+                };
+
+                requestAnimationFrame(scanQRCode);
+            }
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-image: url(polizei350.jpg); /* Ersetze 'dein-bild.jpg' mit dem Pfad zu deinem Bild */
+        background-size: cover; /* Das Bild wird die gesamte Fläche abdecken */
+        background-position: center; /* Bild wird zentriert */
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+          /* Medienabfrage für Tablets */
+    @media (max-width: 768px) {
+        body {
+            background-size: center; /* Das Bild wird so skaliert, dass es immer ganz sichtbar ist */
+            background-repeat: no-repeat; /* Verhindert das Wiederholen des Bildes */
+            background-position: center; /* Das Bild wird zentriert */
+        }
+    }
+
+
+
+        .text-container {
+            margin: auto;
+            margin-top: 50px;
+            max-width: 600px;
+            padding: 20px;
+            background-color: whitesmoke;
+            color: rgb(8, 0, 0);
+            text-align: center;
+            border-radius: 10px;
+            border: 8px solid transparent; /* Standard transparenten Rand */
+            animation: blink 1s infinite; /* Blinken dauerhaft aktiv */
+        }
+
+        .camera-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        #cameraButton {
+            padding: 20px 40px;
+            font-size: 1.2em;
+            background-color: #fa0d0d;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 20px;
+            width: 80%;
+            max-width: 400px;
+            border-radius: 10px;
+        }
+
+        .close {
+            float: right;
+            cursor: pointer;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px; /* Abstand zwischen den Buttons */
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2000;
+        }
+
+
+
+        /* Hover-Effekt für den Textbereich mit Blink-Effekt in Rot */
+        .text-container:hover {
+            border: 9px solid red; /* Roter Rand bei Hover */
+            animation: blink 1s infinite; /* Blinken des Rahmens */
+        }
+
+        /* Schriftgröße im Textbereich */
+        .text-container p {
+            font-size: 1.8em; /* Größere Schrift */
+        }
+
+        /* Blinkende Animation */
+        @keyframes blink {
+            0% { border-color: red; }
+            50% { border-color: transparent; }
+            100% { border-color: red; }
+        }
+        #einsatzendeButton {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 30px;
+            background-color: rgba(255, 0, 0, 0.6);
+            backdrop-filter: blur(14px);
+            color: rgb(255, 255, 255);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 50px;
+            font-size: 1.2em;
+            cursor: pointer;
+            text-align: center;
+            z-index: 2000;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
+        }
+
+        #einsatzendeButton:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3), inset 0 4px 6px rgba(255, 255, 255, 0.3);
+}
+
+    </style>
+    
+    
+</body>
+</html>

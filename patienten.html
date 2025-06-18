@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+   <!-- Hier kommt dein fixer Viewport rein -->
+    <meta name="viewport" content="width=1024, user-scalable=no">
+    <!-- Optional, aber gut für PWA auf Smartphones -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta charset="UTF-8">
+  <title>Sichtungskategorie farblich hervorheben</title>
+  <link rel="manifest" href="/manifest.json">
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+
+    body {
+      position: relative;
+      font-family: Georgia, Times, 'Times New Roman', serif;
+      color: black;
+    }
+
+    .background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background-image: url(Patientenkarte.jpg);
+      background-size: cover;
+      background-position: center;
+      z-index: -2;
+      opacity: 1;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background-color: rgba(255, 255, 255, 0.6);
+      z-index: -1;
+    }
+
+    .content {
+      max-width: 95%;
+      margin: 50px auto;
+      padding: 30px;
+      background-color: white;
+      color: black;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+      overflow-x: auto;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      background-color: white;
+    }
+
+    th, td {
+      border: 1px solid #363639;
+      padding: 10px;
+      text-align: center;
+      height: 50px;
+    }
+
+    th {
+      background-color: #a0adde;
+    }
+
+    tr:nth-child(even) td {
+      background-color: #f9f9f9;
+    }
+
+    .rot {
+      background-color: #ff0000 !important;
+      color: white;
+    }
+
+    .gelb {
+      background-color: #f3fc02 !important;
+      color: black;
+    }
+
+    .grün {
+      background-color: #51ff00 !important;
+      color: black;
+    }
+
+    .schwarz {
+      background-color: #090909 !important;
+      color: white;
+    }
+
+    td.clickable {
+      cursor: pointer;
+      border-radius: 8px;
+      padding: 10px;
+      margin: 0;
+      border: 2px solid #444;
+      background-color: inherit;
+      transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+      font-weight: bold;
+      animation: blink 1.2s infinite; /* <-- HINZUGEFÜGT: Blinken */
+    }
+
+    td.clickable:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    /* <-- HINZUGEFÜGT: Blink-Animation */
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* <-- HINZUGEFÜGT: Zurück-Button */
+    .back-button {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #007BFF;
+      color: white;
+      padding: 10px 16px;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      z-index: 10;
+    }
+
+    .back-button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="background"></div>
+  <div class="overlay"></div>
+
+  <!-- HINZUGEFÜGT: Button oben rechts -->
+  <a href="Instruktor.html" class="back-button">Zurück zum Instruktor-Menü</a>
+
+  <div class="content">
+    <h1>Patientenübersicht</h1>
+
+    <table>
+      <tr>
+        <th rowspan="3">Patienten-<br>nummer</th>
+        <th colspan="3">Wie wird der Patient dargestellt</th>
+        <th rowspan="2" colspan="2">Bereich:<br>im Raum oder davor</th>
+        <th rowspan="3">Sichtungskategorie<br>Durch klicken zum Patienten</th>
+      </tr>
+      <tr>
+        <th rowspan="2">sitzend</th>
+        <th rowspan="2">liegend</th>
+        <th rowspan="2">stehend</th>
+      </tr>
+      <tr>
+        <th>innen</th>
+        <th>außen</th>
+      </tr>
+
+      <!-- Beispielhafte Zeilen -->
+      <tr><td>1</td><td>X</td><td></td><td></td><td>X</td><td></td><td class="clickable rot">ROT</td></tr>
+      <tr><td>2</td><td>X</td><td></td><td></td><td>X</td><td></td><td class="clickable rot">ROT</td></tr>
+      <tr><td>3</td><td></td><td>X</td><td></td><td>X</td><td></td><td class="clickable schwarz">SCHWARZ</td></tr>
+      <tr><td>4</td><td></td><td>X</td><td></td><td></td><td>X</td><td class="clickable gelb">GELB</td></tr>
+      <tr><td>5</td><td></td><td>X</td><td></td><td>X</td><td></td><td class="clickable rot">ROT</td></tr>
+      <tr><td>6</td><td>X</td><td></td><td></td><td>X</td><td></td><td class="clickable grün">GRÜN</td></tr>
+      <tr><td>7</td><td></td><td>X</td><td></td><td>X</td><td></td><td class="clickable rot">ROT</td></tr>
+      <tr><td>8</td><td></td><td>X</td><td></td><td>X</td><td></td><td class="clickable rot">ROT</td></tr>
+      <tr><td>9</td><td>X</td><td></td><td></td><td></td><td>X</td><td class="clickable gelb">GELB</td></tr>
+      <tr><td>10</td><td>X</td><td></td><td></td><td>X</td><td></td><td class="clickable gelb">GELB</td></tr>
+      <tr><td>11</td><td></td><td>X</td><td></td><td>X</td><td></td><td class="clickable rot">ROT</td></tr>
+      <tr><td>12</td><td></td><td>X</td><td></td><td>X</td><td></td><td class="clickable gelb">GELB</td></tr>
+      <tr><td>13</td><td></td><td></td><td>X</td><td></td><td>X</td><td class="clickable grün">GRÜN</td></tr>
+      <tr><td>14</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>15</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    </table>
+  </div>
+
+  <script>
+    // Automatisch Farbe je nach Inhalt der Sichtungskategorie setzen
+    document.querySelectorAll("table tr td:last-child").forEach((cell) => {
+      const text = cell.textContent.trim().toLowerCase();
+      if (["rot", "gelb", "grün", "schwarz"].includes(text)) {
+        cell.classList.add(text);
+        cell.classList.add("clickable");
+
+        const patientId = cell.parentElement.firstElementChild.textContent.trim();
+        cell.addEventListener("click", () => {
+          window.location.href = `patient${patientId}.html`;
+        });
+      }
+    });
+  </script>
+
+</body>
+</html>

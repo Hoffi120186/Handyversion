@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Kontakt und Informationen</title>
+  <!-- Hier kommt dein fixer Viewport rein -->
+    <meta name="viewport" content="width=1024, user-scalable=no">
+    <!-- Optional, aber gut für PWA auf Smartphones -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="/manifest.json">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: url('patientenkarte.jpg') no-repeat center center fixed; /* Hintergrundbild */
+      background-size: cover;
+      font-family: 'Roboto', sans-serif;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: left; /* Text links ausrichten */
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5); /* Abdunkelnder Overlay */
+      z-index: 0;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 800px;
+      background: rgba(255, 255, 255, 0.9); /* Hintergrund der Box */
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      z-index: 1;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 30px;
+      color: #0056b3;
+      font-weight: 700;
+    }
+
+    .content {
+      margin-bottom: 20px;
+    }
+
+    .content button {
+      width: 100%;
+      padding: 15px;
+      background-color: #007bff;
+      color: white;
+      font-size: 1.2em;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-align: left;
+      margin-bottom: 10px;
+      transition: background-color 0.3s ease;
+    }
+
+    .content button:hover {
+      background-color: #0056b3;
+    }
+
+    .content p {
+      display: none;
+      padding: 15px;
+      background-color: #f9f9f9;
+      margin-top: 10px;
+      border-radius: 5px;
+      line-height: 1.6; /* Zeilenhöhe für bessere Lesbarkeit */
+      font-size: 1.1em; /* Etwas größere Schrift */
+      color: #333; /* Dunklerer Text für besseren Kontrast */
+    }
+
+    .content p br {
+      margin-bottom: 10px; /* Mehr Abstand zwischen den Absätzen */
+    }
+
+    .content p strong {
+      font-weight: bold; /* Fettdruck für bestimmte Wörter */
+    }
+
+    .content p span.large {
+      font-size: 1.3em; /* Größere Schrift für bestimmte Wörter */
+    }
+
+  /* Neuer Button für die Startseite */
+.startseite-button {
+  background-color: red !important; /* Roter Hintergrund */
+  color: white !important;           /* Weiße Schrift */
+  font-size: 1.2em;
+  padding: 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: left;
+  margin-top: 20px;       /* Etwas Abstand nach oben */
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.startseite-button:hover {
+  background-color: darkred !important; /* Dunkleres Rot bei Hover */
+}
+
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Willkommen zur APP von 1Rettungsmittel </h1>
+    
+    <!-- Inhalt mit Buttons und zugehörigem Text -->
+    <div class="content">
+      <button onclick="toggleText(1)"> Die Idee, warum und wieso?</button>
+      <p id="text1">Moin,<br> die Idee kam mir selbst in der Ausbildung.<br>
+        <strong>MANV Ausbildung</strong> ist in der Regel teuer und sehr sehr Aufwendig.<br>
+        klar, man kann sich immer irgendwas zurechtlegen aber so richtig Spaß hat das nicht gemacht. Also dachte ich mir, da kann man selber was entwickeln.<br>
+        Los ging es und knapp <strong>1 Jahr</strong> später ist es soweit das ich meine Idee mit euch teilen kann.<br>
+        Meine Idee beruht darauf, dass wirklich jeder und egal wo seine ersten Abläufe beim MANV trainieren kann.<br>
+        Mir geht es nicht um die großen Dinger! Sondern um die Tätigkeiten des <strong>1 Rettungsmittels</strong>.<br> Sein wir doch mal ehrlich.<br>
+        Wir lernen in den OrgL RD Lehrgängen viele wichtige Dinge aber als 1 Rettungsmittel habe ich doch keine Kapazitäten um an Punkte wie: <strong>- Behandlungsplatz</strong> <strong>- RD Haltemittelplatz</strong><strong>- Transportstop</strong><strong>-Bereitstellungsraum zu denken.</strong>  <br>
+        Meiner Meinung nach und auch meiner Erfahrung nach sind doch folgende Punkte als<br> 1 Rettungsmittel viel wichtiger: <strong>- Strukturierte Lagemeldung</strong><strong>- Vorsichtung/Sofortmaßnahmen</strong><strong>- erste Patientenablage</strong>   und evtl noch Anfahrt für weitere Kräfte.<br>
+        Viel mehr schafft man doch gar nicht.<br>
+         Eins können wir schlecht Simulieren und das ist der Stress den man im realen Einsatz hat. Mit realen Menschen.<br>
+        Aber schaut doch einfach mal rein ob euch meine App gefällt? In kürze werden noch Videos folgen.</p>
+
+      <button onclick="toggleText(2)">Was kann die PWA (Progressive-Web-App)</button>
+      <p id="text2">Vorab, sie funktioniert wie eine App aus den euch bekannten Stores!<br>
+        Also mit meiner App könnt ihr Szenarien mit mehreren Verletzten Simulieren.<br>
+        <strong>- Euch werden Einsatzmeldungen gegeben und bei erreichen der Einsatzstelle (Übungsort) wird euch eine erste Lagemeldung gegeben.</strong><br>
+        <strong>- Es stellen sich mehrere Patienten (Das wählt ihr selber vorher als Instruktor aus) vor. Durch QR Codes scannt ihr eine Code und der Patient zeigt sich als Bild und gibt euch Digitale Auskunft.</strong><br>
+        <strong>- Anhand dieser Daten müsst ihr Sichten.</strong><br>Zum Abschluss wird euch in der Auswertung einmal gezeigt wie lange ihr gebraucht habt und welcher Patient wie gesichtet wurde.<br>
+      </p>
+
+      <button onclick="toggleText(3)">Aber was kann ich damit genau trainieren??</button>
+      <p id="text3">Da gibt es mehrere Ansätze.<br>
+        <strong>- Einmal kann man das Vorsichten tranieren:</strong><br>
+       <strong> - Man kann aber auch Sofortmaßnahmen trainieren:</strong> Entweder Digital in der App oder ihr baut reale Personen ein. An diesen kann man dann <strong>z.B. eine stabile Seitenlage</strong> üben.<br> Vorteil die Geschichte des Patienten ist schon fertig!<br>
+        Kein langes Briefen usw. keine große Vorbereitungszeit.<br>
+       <strong> - Strukturen und Abläufe:</strong> Dazu war es bei mir hauptsächlich gedacht. Wie sichte ich, was passiert dann mit den Patienten, wo richte ich die erste Patientenablage ein.<br>
+        Wie werden die Patienten dokumentiert? Wie weisen wir sie der Klinik zu usw.<br>
+        Alles Sachen die draußen oft nicht fest im Kopf sind! Da sie zum Glück auch selten sind!</p>
+
+      <button onclick="toggleText(4)">Wie kann ich das jetzt ausprobieren?</button>
+      <p id="text4">Danke erstmal das du bis hier noch dabei bist!<br>
+      Also du kannst ganz einfach starten:<br>
+    Auf der Startseite mit dem großen Logo findest du unter <strong>Instruktor Menü ( Passwort 112 )</strong> einen Button mit QR Codes.<br>
+  Diese benötigst du um die Patienten und die Lagemeldung in der App darzustellen.<br>
+Sonst kannst du unter dem roten Button <strong>"Anleitung"</strong> findest du eine Bebilderte Anleitung.<br>
+Und mehr brauchst du gar nuicht um die Demo zu testen.<br>
+Viele Funtionen sind nur in der Vollversion nutzbar. Da könnte man die App auch fest Installieren.<br>
+Aber um einen Geschmack zu bekommen kannst du die App einach als PWA installieren. Die Infos und die Anleitung dazu findest du auch im Instruktor Menü.<br>
+Einfach den gelben Button drücken!</p>
+<button onclick="toggleText(5)">Datenschutzerklärung</button>
+  <p id="text5">
+    Diese Progressive Web App (PWA) verarbeitet keine personenbezogenen Daten automatisch.<br>
+    Es erfolgt kein Tracking, keine Analyse und keine Datenweitergabe an Dritte.<br><br>
+    Es werden lediglich technisch notwendige Daten lokal auf deinem Gerät gespeichert,
+    um die Offline-Nutzung der Anwendung zu ermöglichen.<br><br>
+    Bei Kontaktaufnahme per E-Mail wird deine E-Mail-Adresse nur zur Beantwortung deiner Anfrage verwendet
+    und nicht an Dritte weitergegeben.<br><br>
+    Fragen? Schreib an: <strong>info@1rettungsmittel.de</strong>
+  </p>
+
+  <button onclick="toggleText(6)">Impressum</button>
+  <p id="text6">
+    <strong>Angaben gemäß § 5 TMG:</strong><br>
+    Marc-Andre`Hoffmann<br>
+    Im Lütgen Kamp 15 <br>
+    31241 Ilsede<br><br>
+
+    <strong>Kontakt:</strong><br>
+    E-Mail: <a href="mailto:Kontakt@1rettungsmittel.de">info@1rettungsmittel.de</a><br>
+   
+
+    Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:<br>
+    Marc-Andre´Hoffmann, Im Lütgen Kamp 15, 31241 Ilsede
+  </p>
+
+  </div>
+      <!-- Button zur Startseite -->
+      <button onclick="window.location.href='index.html'" class="startseite-button">Zur Startseite</button>
+    </div>
+  </div>
+
+  <script>
+    function toggleText(buttonNumber) {
+      var textElement = document.getElementById('text' + buttonNumber);
+      // Überprüfen, ob der Text sichtbar ist und ändern
+      if (textElement.style.display === "none" || textElement.style.display === "") {
+        textElement.style.display = "block";
+      } else {
+        textElement.style.display = "none";
+      }
+    }
+  </script>
+
+</body>
+</html>

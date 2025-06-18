@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+   <!-- Hier kommt dein fixer Viewport rein -->
+    <meta name="viewport" content="width=1024, user-scalable=no">
+    <!-- Optional, aber gut für PWA auf Smartphones -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Zeitauswertung</title>
+  <link rel="stylesheet" href="stylesauswertung.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <link rel="manifest" href="/manifest.json">
+
+  <style>
+    #downloadPDF {
+      display: block;
+      margin: 20px auto 0;
+      padding: 15px 30px;
+      background-color: rgb(81, 62, 202);
+      color: rgb(252, 249, 249);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 50px;
+      font-size: 1.5em;
+      cursor: pointer;
+      text-align: center;
+      z-index: 2000;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease-in-out;
+    }
+    #downloadPDF:hover {
+      background: rgba(255, 255, 255, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+    }
+    #downloadPDF:active {
+      transform: scale(0.95);
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <h1>Zeitauswertung</h1>
+
+  <h2>Gesamtzeit:</h2>
+  <div id="gesamtzeit">Wird geladen...</div>
+
+  <h2>Patientenzeiten:</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Patientenseite</th>
+        <th>Zeit (MM:SS)</th>
+      </tr>
+    </thead>
+    <tbody id="patientenzeiten"></tbody>
+  </table>
+
+  <h2>Sichtungskategorien:</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Patientenseite</th>
+        <th>Sichtung</th>
+      </tr>
+    </thead>
+    <tbody id="patientenfarben"></tbody>
+  </table>
+
+  <!-- PDF Button -->
+  <button id="downloadPDF">Auswertung als PDF</button>
+
+  <!-- Neuer Einsatz Button -->
+  <button id="neuerEinsatzButton">Neuer Einsatz</button>
+
+  <script>
+    localStorage.setItem('resetFlag', 'true');
+
+    function formatTime(seconds) {
+      const minutes = Math.floor(seconds / 60);
+      const remainingSeconds = seconds % 60;
+      return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+    }
+
+    function calculateTotalTime() {
+      let totalTime = 0;
+      Object.keys(localStorage).forEach(key => {
+        if (key.startsWith('time_')) {
+          totalTime += parseInt(localStorage.getItem(key)) || 0;
+        }
+      });
+      return totalTime;
+    }
+
+    const patientTable = document.getElementById('patientenzeiten');
+    Object.keys(localStorage).forEach(key => {
+      if (key.startsWith('time_')) {
+        let patientPage = key.replace('time_', '');
+        const timeSec = parseInt(localStorage.getItem(key)) || 0;
+        if (patientPage.includes('index.html')) {
+          patientPage = 'Anfahrt Einsatzstelle';
+        } else {
+          patientPage = 'Patient ' + patientPage.replace('patient', '').replace('.html', '');
+        }
+        const row = document.createElement('tr');
+        row.innerHTML = `<td>${patientPage}</td><td>${formatTime(timeSec)}</td>`;
+        patientTable.appendChild(row);
+      }
+    });
+
+    document.getElementById('gesamtzeit').textContent = formatTime(calculateTotalTime());
+
+    function resetAllData() {
+      Object.keys(localStorage).forEach(key => {
+        if (key.startsWith('time_') || key.startsWith('sichtung_')) {
+          localStorage.removeItem(key);
+        }
+      });
+      localStorage.setItem('resetFlag', 'true');
+      console.log('🔥 Neuer Einsatz gestartet: Alle Daten wurden zurückgesetzt!');
+    }
+
+    document.getElementById('neuerEinsatzButton')?.addEventListener('click', function () {
+      resetAllData();
+      window.location.href = "/index.html";
+    });
+
+    function displayPatientColors() {
+      const patientTable = document.getElementById('patientenfarben');
+      if (patientTable) {
+        patientTable.innerHTML = "";
+        Object.keys(localStorage).forEach(key => {
+          if (key.startsWith('sichtung_')) {
+            let patientPage = key.replace('sichtung_', '');
+            if (patientPage.includes('index.html')) {
+              patientPage = 'Anfahrt Einsatzstelle';
+            }
+            const category = localStorage.getItem(key) || 'Unbekannt';
+            let bgColor = "white";
+            switch (category) {
+              case "rot": bgColor = "red"; break;
+              case "gelb": bgColor = "yellow"; break;
+              case "grün": bgColor = "green"; break;
+              case "schwarz": bgColor = "black"; break;
+            }
+            const row = document.createElement('tr');
+            row.innerHTML = `<td>${patientPage}</td><td style="background-color: ${bgColor}; color: ${bgColor === 'black' ? 'white' : 'black'};">${category}</td>`;
+            patientTable.appendChild(row);
+          }
+        });
+      }
+    }
+
+    displayPatientColors();
+
+    document.getElementById("downloadPDF").addEventListener("click", async function () {
+      // Selecting only the content we want to export, excluding background
+      const content = document.querySelector('body'); // Or any specific section you need, e.g., a div
+      const canvas = await html2canvas(content, { backgroundColor: "transparent" }); // No background color
+      const imgData = canvas.toDataURL("image/png");
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF();
+      const imgProps = pdf.getImageProperties(imgData);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+      pdf.save("auswertung.pdf");
+    });
+  </script>
+</body>
+</html>

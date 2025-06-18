@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+   <!-- Hier kommt dein fixer Viewport rein -->
+    <meta name="viewport" content="width=1024, user-scalable=no">
+    <!-- Optional, aber gut für PWA auf Smartphones -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta charset="UTF-8">
+  <title>QR Codes Übersicht</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="manifest" href="/manifest.json">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: url('patientenkarte.jpg') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Arial', sans-serif;
+      color: #333;
+      position: relative;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4); /* Abdunkeln */
+      z-index: 0;
+    }
+
+    #qr-container {
+      position: relative;
+      z-index: 1;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      margin: 30px auto;
+      border-radius: 15px;
+      max-width: 1200px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2em;
+      color: #0056b3;
+    }
+
+    .qr-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .qr-item {
+      background: #f8f9fa;
+      border-radius: 10px;
+      padding: 15px;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+      opacity: 0;
+      animation: fadeIn 0.5s forwards;
+    }
+
+    .qr-item:hover {
+      transform: scale(1.03);
+    }
+
+    .qr-item img {
+      width: 100%;
+      max-width: 180px;
+      height: auto;
+      margin-bottom: 10px;
+    }
+
+    .qr-item button {
+      padding: 8px 16px;
+      font-size: 14px;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .qr-item button:hover {
+      background-color: #0056b3;
+    }
+
+    #download-all {
+      margin-top: 30px;
+      padding: 12px 24px;
+      font-size: 18px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      transition: background-color 0.3s;
+    }
+
+    #download-all:hover {
+      background-color: #218838;
+    }
+
+    /* Neuer Roter Button */
+    .red-button {
+      display: block;
+  width: 200px; /* Breite des Buttons */
+  padding: 15px;
+  background-color: #ff0000;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  text-align: center;
+  margin: 0 auto; /* Zentriert den Button horizontal */
+  margin-top: 4%;
+  cursor: pointer;
+  transition: background-color 0.3s;
+    }
+
+    .red-button:hover {
+      background-color: darkred !important; /* Dunkleres Rot bei Hover */
+    }
+
+    /* Responsive Verbesserungen */
+    @media (max-width: 768px) {
+      #qr-container {
+        padding: 20px;
+        margin: 20px;
+      }
+
+      h1 {
+        font-size: 1.5em;
+      }
+
+      .qr-grid {
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 15px;
+      }
+
+      .qr-item img {
+        max-width: 140px;
+      }
+
+      .qr-item button {
+        font-size: 12px;
+        padding: 6px 12px;
+      }
+
+      #download-all {
+        font-size: 16px;
+        padding: 10px 20px;
+      }
+    }
+
+    /* Animation für das Einblenden der QR-Elemente */
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+  </style>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+
+  <div id="qr-container">
+    <h1>QR-Codes Übersicht</h1>
+
+    <div class="qr-grid" id="qr-grid">
+      <!-- Hier fügen wir die QR-Codes dynamisch ein -->
+    </div>
+
+    <!-- Der neue rote Button -->
+    <button class="red-button" onclick="window.location.href='index.html'">Zur Startseite</button>
+
+    <button id="download-all" onclick="downloadAllAsPdf()">Alle QR-Codes als PDF herunterladen</button>
+  </div>
+
+  <script>
+    const qrCodes = [
+      "qrcodes/Patient 1.png",
+      "qrcodes/Patient 2.png",
+      "qrcodes/Patient 3.png",
+      "qrcodes/Patient 4.png",
+      "qrcodes/Patient 5.png",
+      "qrcodes/Patient 6.png",
+      "qrcodes/Patient 7.png",
+      "qrcodes/Patient 8.png",
+      "qrcodes/Patient 9.png",
+      "qrcodes/Patient 10.png",
+      "qrcodes/Patient 11.png",
+      "qrcodes/Patient 12.png",
+      "qrcodes/Patient 13.png",
+      "qrcodes/Patient 14.png",
+      "qrcodes/Status 4.png"
+    ];
+
+    const grid = document.getElementById('qr-grid');
+
+    qrCodes.forEach((src, index) => {
+      const div = document.createElement('div');
+      div.className = 'qr-item';
+
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = `QR ${index + 1}`;
+
+      const button = document.createElement('button');
+      button.innerText = `QR ${index + 1} als PDF`;
+      button.onclick = () => downloadSinglePdf(src, `QR_${index + 1}.pdf`);
+
+      div.appendChild(img);
+      div.appendChild(button);
+      grid.appendChild(div);
+    });
+
+    async function downloadSinglePdf(imageSrc, filename) {
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF();
+
+      const img = new Image();
+      img.src = imageSrc;
+      await img.decode();
+
+      pdf.addImage(img, 'JPEG', 10, 10, 190, 190);
+      pdf.save(filename);
+    }
+
+    async function downloadAllAsPdf() {
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF();
+
+      for (let i = 0; i < qrCodes.length; i++) {
+        const img = new Image();
+        img.src = qrCodes[i];
+        await img.decode();
+
+        pdf.addImage(img, 'JPEG', 10, 10, 190, 190);
+
+        if (i !== qrCodes.length - 1) {
+          pdf.addPage();
+        }
+      }
+
+      pdf.save('Alle_QR_Codes.pdf');
+    }
+  </script>
+
+</body>
+</html>
