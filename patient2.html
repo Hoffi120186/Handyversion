@@ -91,13 +91,7 @@
     <div class="camera-container">
         <video id="video" width="640" height="480" autoplay></video>
     </div>
-    <script>
-        fetch("Btninstruktor.html")
-            .then(response => response.text())
-            .then(html => {
-                document.getElementById("button-container").innerHTML = html;
-            });
-    </script>
+ 
 <script>
     function resetAndRedirect() {
         window.location.href = "/index.html"; // Hier kannst du die gewünschte Seite angeben
@@ -111,6 +105,11 @@
         <img src="pat2amesser.JPG" alt="Messer">
         <span id="closeModal">Schließen</span>
     </div>
+</div>
+    
+<div id="bottom-buttons">
+  <a href="index.html" id="startseiteButton">Startseite</a>
+  <button id="einsatzendeButton" onclick="endMission()">Einsatz Ende</button>
 </div>
 
 <button id="einsatzendeButton">Einsatz Ende</button>
