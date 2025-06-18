@@ -15,11 +15,12 @@ body {
     position: fixed;
     top: 15px;
     left: 15px;
-    background: none;
+    background-color: red;
     color: white;
-    font-size: 1.9em;
-    cursor: pointer;
+    font-size: 1.2em;
+    padding: 8px 14px;
     border: none;
+    border-radius: 6px;
     z-index: 1001;
 }
 
@@ -40,7 +41,7 @@ body {
 .button-container {
     width: 100%;
     max-width: 600px;
-    margin-top: 60px;
+    margin-top: 40px;
     margin-bottom: 100px;
     display: flex;
     flex-direction: column;
@@ -51,19 +52,19 @@ body {
 .btn {
     width: 100%;
     max-width: 600px;
-    padding: 30px;
+    padding: 24px;
     background-color: rgba(255, 255, 255, 0.1);
     color: rgb(221, 221, 228);
     backdrop-filter: blur(80px);
     -webkit-backdrop-filter: blur(20px);
-    font-size: 1.6em;
+    font-size: 1.4em;
     font-weight: bold;
-    margin: 12px 0;
+    margin: 10px 0;
     cursor: pointer;
     text-align: center;
     border-radius: 10px;
     border: 1px solid rgba(255, 255, 255, 0.4);
-    box-shadow: 0 7px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease-in-out;
     position: relative;
 }
@@ -91,14 +92,15 @@ body {
 #einsatzendeButton {
     position: fixed;
     bottom: 20px;
-    right: 20px;
-    padding: 15px 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 24px;
     background-color: rgba(255, 0, 0, 0.6);
     backdrop-filter: blur(14px);
     color: white;
     border: 1px solid rgba(255, 255, 255, 0.4);
     border-radius: 6px;
-    font-size: 1.3em;
+    font-size: 1.1em;
     cursor: pointer;
     z-index: 1000;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -151,33 +153,35 @@ body {
 
 /* SK-Buttons Styling */
 .sk-button-container {
-    display: none;
-    gap: 10px;
-    margin-top: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 10px;
 }
 
 .sk-btn {
-    padding: 15px;
-    font-size: 1.2em;
+    padding: 10px;
+    font-size: 1em;
     font-weight: bold;
     border: none;
-    border-radius: 8px;
+    border-radius: 6px;
     cursor: pointer;
     color: white;
-    width: 80px;
+    width: 70px;
     text-align: center;
-    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .sk-btn.selected {
     background-color: #4a22da;
     color: white;
-    border: 10px solid #4a22da;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.10);
+    border: 6px solid #4a22da;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.10);
 }
 
 .sk-btn:active {
-    border: 6px solid #000;
+    border: 4px solid #000;
     background-color: #f0f0f0;
 }
 
