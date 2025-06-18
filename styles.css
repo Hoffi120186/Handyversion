@@ -189,3 +189,36 @@ body {
 .sk-btn.yellow { background-color: yellow; color: black; }
 .sk-btn.green { background-color: green; }
 .sk-btn.black { background-color: black; }
+
+#bottom-buttons {
+  position: fixed;
+  bottom: 20px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  padding: 0 16px;
+  z-index: 1000;
+  box-sizing: border-box;
+}
+
+#bottom-buttons button {
+  flex: 1;
+  margin: 0 8px;
+  padding: 14px;
+  font-size: 1.1em;
+  font-weight: bold;
+  background-color: rgba(255, 0, 0, 0.8);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#bottom-buttons button:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  border: 1px solid white;
+}
+
