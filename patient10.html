@@ -94,20 +94,17 @@
         <video id="video" width="640" height="480" autoplay></video>
     </div>
 
-<script>
-    fetch("Btninstruktor.html")
-        .then(response => response.text())
-        .then(html => {
-            document.getElementById("button-container").innerHTML = html;
-        });
-</script>
-
 <!-- Modal für Bildanzeige -->
 <div id="modal">
     <div id="modalContent">
         <img src="pat10amesser.JPG" alt="VU Brillenhämatom">
         <span id="closeModal">Schließen</span>
     </div>
+</div>
+
+<div id="bottom-buttons">
+  <a href="index.html" id="startseiteButton">Startseite</a>
+  <button id="einsatzendeButton" onclick="endMission()">Einsatz Ende</button>
 </div>
 
 
