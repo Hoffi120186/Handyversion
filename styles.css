@@ -190,3 +190,20 @@ body {
 .sk-btn.yellow { background-color: yellow; color: black; }
 .sk-btn.green { background-color: green; }
 .sk-btn.black { background-color: black; }
+@media (max-width: 1024px) {
+  html {
+    /* zoomt alles größer – z.B. 130% */
+    transform: scale(1.3);
+    transform-origin: top center;
+
+    /* verhindert horizontales Scrollen */
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  body {
+    width: auto !important; /* überschreibt feste 1024px */
+    margin: 0;
+  }
+}
+
