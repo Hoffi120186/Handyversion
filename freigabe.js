@@ -1,3 +1,5 @@
+console.log("✅ freigabe.js wurde geladen");
+
 const passwortPopup = () => {
   const overlay = document.createElement("div");
   overlay.innerHTML = `
