@@ -71,6 +71,10 @@ document.addEventListener("DOMContentLoaded", function () {
     function resetAndRedirect() {
         window.location.href = "/index.html"; // Hier kannst du die gewünschte Seite angeben
     }
+function einsatzendeButton() {
+  localStorage.setItem("appGesperrt", "true");
+  location.reload(); // App sofort sperren
+}
 
 
 
