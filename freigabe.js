@@ -43,13 +43,14 @@ async function prüfePasswort() {
     alert("Dieses Passwort wurde bereits verwendet.");
     return;
   }
+if (data.passwoerter.includes(eingabe)) {
+  const gueltigFuerMS = 1 * 60 * 60 * 1000; // 6 Stunden
+  const ablaufZeit = Date.now() + gueltigFuerMS;
 
-  if (data.passwoerter.includes(eingabe)) {
-    localStorage.setItem("appGesperrt", "false");
-    bereitsVerbrauchte.push(eingabe);
-    localStorage.setItem("verbrauchtePW", JSON.stringify(bereitsVerbrauchte));
-    location.reload();
-  } else {
-    alert("Falsches Passwort.");
+  localStorage.setItem("appGesperrt", "false");
+  localStorage.setItem("freigabeBis", ablaufZeit);
+  bereitsVerbrauchte.push(eingabe);
+  localStorage.setItem("verbrauchtePW", JSON.stringify(bereitsVerbrauchte));
+  location.reload();
   }
 }
