@@ -1,7 +1,12 @@
-{
-  "passwoerter": [
-    "einsatz123",
-    "reset456",
-    "start789"
-  ]
-}
+[
+  {
+    "passwort": "start123",
+    "status": "unused",
+    "gueltigBis": null
+  },
+  {
+    "passwort": "go456",
+    "status": "unused",
+    "gueltigBis": null
+  }
+]
