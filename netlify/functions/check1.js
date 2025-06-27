@@ -6,7 +6,16 @@ export async function handler(event, context) {
     };
   }
 
-  const { passwort } = JSON.parse(event.body);
+let passwort;
+
+try {
+  const json = JSON.parse(event.body);
+  passwort = json.passwort;
+} catch(e) {
+  // fallback für x-www-form-urlencoded
+  const params = new URLSearchParams(event.body);
+  passwort = params.get("passwort");
+}
 
   // statisch definierte Passwörter
   let passwoerter = [
