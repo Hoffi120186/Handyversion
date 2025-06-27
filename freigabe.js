@@ -28,29 +28,22 @@ function zeigePasswortPopup() {
   document.body.appendChild(overlay);
 }
 
-
 async function prüfePasswort() {
   console.log("Passwort wird geprüft");
   const eingabe = document.getElementById("pwInput").value.trim();
 
-  const response = await fetch("./passwoerter.json", { cache: "no-store" });
+  const response = await fetch("check.php", {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({passwort: eingabe})
+  });
   const data = await response.json();
-  console.log("Geladene Passwörter:", data.passwoerter);
 
-  let bereitsVerbrauchte = JSON.parse(localStorage.getItem("verbrauchtePW")) || [];
-
-  if (bereitsVerbrauchte.includes(eingabe)) {
-    alert("Dieses Passwort wurde bereits verwendet.");
-    return;
-  }
-if (data.passwoerter.includes(eingabe)) {
-  const gueltigFuerMS = 1 * 60 * 60 * 1000; // 6 Stunden
-  const ablaufZeit = Date.now() + gueltigFuerMS;
-
-  localStorage.setItem("appGesperrt", "false");
-  localStorage.setItem("freigabeBis", ablaufZeit);
-  bereitsVerbrauchte.push(eingabe);
-  localStorage.setItem("verbrauchtePW", JSON.stringify(bereitsVerbrauchte));
-  location.reload();
+  if(data.ergebnis === "ok") {
+      localStorage.setItem("appGesperrt", "false");
+      localStorage.setItem("freigabeBis", new Date(data.gueltigBis).getTime());
+      location.reload();
+  } else {
+      alert("Falsches oder bereits verbrauchtes Passwort!");
   }
 }
