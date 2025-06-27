@@ -32,11 +32,12 @@ async function prüfePasswort() {
   console.log("Passwort wird geprüft");
   const eingabe = document.getElementById("pwInput").value.trim();
 
-  const response = await fetch("check.php", {
-      method: "POST",
-      headers: {"Content-Type":"application/json"},
-      body: JSON.stringify({passwort: eingabe})
-  });
+  const response = await fetch("https://www.1rettungsmittel.de/pwa-backend/check.php", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({passwort: eingabe})
+});
+
   const data = await response.json();
 
   if(data.ergebnis === "ok") {
