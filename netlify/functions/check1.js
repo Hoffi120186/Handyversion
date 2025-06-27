@@ -1,6 +1,3 @@
-import fs from "fs";
-import path from "path";
-
 export async function handler(event, context) {
   if (event.httpMethod !== "POST") {
     return {
@@ -9,11 +6,26 @@ export async function handler(event, context) {
     };
   }
 
-  // Passwort aus POST
   const { passwort } = JSON.parse(event.body);
 
-  const filePath = path.resolve("netlify/functions/passwoerter.json");
-  let passwoerter = JSON.parse(fs.readFileSync(filePath, "utf8"));
+  // statisch definierte Passwörter
+  let passwoerter = [
+    {
+      passwort: "start123",
+      status: "unused",
+      dauer: 12
+    },
+    {
+      passwort: "premium456",
+      status: "unused",
+      dauer: 24
+    },
+    {
+      passwort: "jahreszugang789",
+      status: "unused",
+      dauer: 24 * 365
+    }
+  ];
 
   let eintrag = passwoerter.find((pw) => pw.passwort === passwort);
 
@@ -24,27 +36,16 @@ export async function handler(event, context) {
     };
   }
 
-  if (eintrag.status === "used") {
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ ergebnis: "bereits genutzt" }),
-    };
-  }
-
-  // gültig machen
-  eintrag.status = "used";
+  // hier KEIN status speichern (weil kein echtes Dateisystem)
+  // einfach zurückgeben und im localStorage merken
   const ablauf = new Date();
   ablauf.setHours(ablauf.getHours() + eintrag.dauer);
-  eintrag.gueltigBis = ablauf.toISOString();
-
-  // speichern
-  fs.writeFileSync(filePath, JSON.stringify(passwoerter, null, 2));
 
   return {
     statusCode: 200,
     body: JSON.stringify({
       ergebnis: "ok",
-      gueltigBis: eintrag.gueltigBis,
+      gueltigBis: ablauf.toISOString(),
     }),
   };
 }
