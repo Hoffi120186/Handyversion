@@ -35,7 +35,8 @@ async function prüfePasswort() {
   const formData = new URLSearchParams();
   formData.append("passwort", eingabe);
 
-  const response = await fetch("https://www.1rettungsmittel.de/pwa-backend/check.php", {
+  const response = await fetch("/.netlify/functions/check1", {
+
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: formData.toString()
